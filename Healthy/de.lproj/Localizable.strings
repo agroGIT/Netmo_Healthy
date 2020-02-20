@@ -1,0 +1,19 @@
+
+/* 
+  Localizable.strings
+  Netmo for Healthy Coach
+
+ BASE - English
+ 
+  Created by Andreas Großauer on 20.09.15.
+  Copyright © 2015 Andreas Großauer. All rights reserved.
+*/
+
+
+
+// About
+
+"TEMPERATURE" = "Temperatur";
+"HUMIDITY" = "Luftfeuchtigkeit";
+"CO2" = "CO2";
+"NOISE" = "Lautstärke";

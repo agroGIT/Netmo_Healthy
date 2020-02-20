@@ -1,0 +1,26 @@
+PODS:
+  - Alamofire (5.0.0)
+  - Charts (3.4.0):
+    - Charts/Core (= 3.4.0)
+  - Charts/Core (3.4.0)
+  - SwiftyJSON (5.0.0)
+
+DEPENDENCIES:
+  - Alamofire (~> 5.0)
+  - Charts
+  - SwiftyJSON
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - Charts
+    - SwiftyJSON
+
+SPEC CHECKSUMS:
+  Alamofire: 58ff2bfb8daaacaa233d5c36e37b10a5248f59b1
+  Charts: 74c9f256eaf0460c0c416522d1cf8c634ea6b286
+  SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
+
+PODFILE CHECKSUM: 81d02a907bd14fc8b62751cb59fede293dc6ae79
+
+COCOAPODS: 1.8.4
