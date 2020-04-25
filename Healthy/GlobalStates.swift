@@ -9,10 +9,25 @@
 import Foundation
 
 
+
+
+
 class GlobalStates {
 
-
+    var deviceData = [HealthyDataStruct]()
+    var currentStation:Int = -1
+    var menuBarStationNr:Int = 1    // Nr der Station die in der Menüleiste angezeigt wird.
     
+    var refreshToken:String = ""
+
+    var separatorSymbol = " / "
+    
+    // Preferences
+    var globalSettings = GlobalSettings()
+    
+    
+    var isCelsius:Bool = true // Wird durch die Systemeinstellungen gesetzt. Keine User-Einstellung!!!
+    var tempUnit:String = "°C"
     
     
     static let sharedInstance: GlobalStates = {
@@ -23,6 +38,15 @@ class GlobalStates {
     }()
     private init(){}
     
+}
+
+extension GlobalStates {
+    
+    func loadUserDefs() {
+        
+        globalSettings.loadUserDefaults()
+        
+    }
     
     
 }

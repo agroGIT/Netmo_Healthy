@@ -21,7 +21,17 @@
 		86AAF4B123F9C01500736301 /* HealthyDataStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AAF4B023F9C01500736301 /* HealthyDataStruct.swift */; };
 		86AD302623F89E6500E43E79 /* NetatmoConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AD302523F89E6500E43E79 /* NetatmoConnect.swift */; };
 		86AD302A23F89EC700E43E79 /* Netatmo.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AD302923F89EC600E43E79 /* Netatmo.m */; };
+		86C9A79F240025BA009E3515 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C9A79E240025BA009E3515 /* LoginView.swift */; };
+		86C9A7A1240057B5009E3515 /* Calculations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C9A7A0240057B5009E3515 /* Calculations.swift */; };
+		86C9A7A424006641009E3515 /* TitleBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C9A7A324006641009E3515 /* TitleBarView.swift */; };
+		86C9A7A624006682009E3515 /* HealthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C9A7A524006682009E3515 /* HealthView.swift */; };
+		86C9A7A8240066A7009E3515 /* ValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C9A7A7240066A7009E3515 /* ValueView.swift */; };
+		86D1EADF24016EA200A4E795 /* StatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D1EADE24016EA200A4E795 /* StatusBarView.swift */; };
 		86DE326823FDC4AB00D5C6D9 /* GlobalStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE326723FDC4AB00D5C6D9 /* GlobalStates.swift */; };
+		86E667CF240972BD00ECC919 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E667CE240972BD00ECC919 /* SettingsView.swift */; };
+		86EE4ABA240A77B6002958F8 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86EE4AB9240A77B6002958F8 /* ErrorView.swift */; };
+		86F1D8A6245320D200B9BBDD /* SettingsGeneralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F1D8A5245320D200B9BBDD /* SettingsGeneralView.swift */; };
+		86F1D8A8245339A300B9BBDD /* GlobalSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F1D8A7245339A300B9BBDD /* GlobalSettings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,7 +56,17 @@
 		86AD302723F89EC600E43E79 /* Healthy-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Healthy-Bridging-Header.h"; sourceTree = "<group>"; };
 		86AD302823F89EC600E43E79 /* Netatmo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Netatmo.h; sourceTree = "<group>"; };
 		86AD302923F89EC600E43E79 /* Netatmo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Netatmo.m; sourceTree = "<group>"; };
+		86C9A79E240025BA009E3515 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		86C9A7A0240057B5009E3515 /* Calculations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Calculations.swift; sourceTree = "<group>"; };
+		86C9A7A324006641009E3515 /* TitleBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleBarView.swift; sourceTree = "<group>"; };
+		86C9A7A524006682009E3515 /* HealthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthView.swift; sourceTree = "<group>"; };
+		86C9A7A7240066A7009E3515 /* ValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueView.swift; sourceTree = "<group>"; };
+		86D1EADE24016EA200A4E795 /* StatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarView.swift; sourceTree = "<group>"; };
 		86DE326723FDC4AB00D5C6D9 /* GlobalStates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalStates.swift; sourceTree = "<group>"; };
+		86E667CE240972BD00ECC919 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		86EE4AB9240A77B6002958F8 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		86F1D8A5245320D200B9BBDD /* SettingsGeneralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsGeneralView.swift; sourceTree = "<group>"; };
+		86F1D8A7245339A300B9BBDD /* GlobalSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSettings.swift; sourceTree = "<group>"; };
 		F97862290CDB4A9D65B3D55F /* Pods-Healthy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Healthy.release.xcconfig"; path = "Target Support Files/Pods-Healthy/Pods-Healthy.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,6 +88,31 @@
 				0F4E614D09CC86141C4A134F /* Pods_Healthy.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		868628D9240A743F00ECC4C8 /* SettingsView */ = {
+			isa = PBXGroup;
+			children = (
+				86E667CE240972BD00ECC919 /* SettingsView.swift */,
+				86F1D8A5245320D200B9BBDD /* SettingsGeneralView.swift */,
+			);
+			path = SettingsView;
+			sourceTree = "<group>";
+		};
+		868628DA240A745800ECC4C8 /* LoginView */ = {
+			isa = PBXGroup;
+			children = (
+				86C9A79E240025BA009E3515 /* LoginView.swift */,
+			);
+			path = LoginView;
+			sourceTree = "<group>";
+		};
+		868628DB240A746100ECC4C8 /* CompactView */ = {
+			isa = PBXGroup;
+			children = (
+				8646560523F92C040022401B /* CompactView.swift */,
+			);
+			path = CompactView;
 			sourceTree = "<group>";
 		};
 		86A9C33A23F87AAA0043D5D6 = {
@@ -92,20 +137,25 @@
 			isa = PBXGroup;
 			children = (
 				86A9C34623F87AAA0043D5D6 /* AppDelegate.swift */,
-				86A9C34823F87AAA0043D5D6 /* ContentView.swift */,
-				8646560523F92C040022401B /* CompactView.swift */,
+				86C9A7A0240057B5009E3515 /* Calculations.swift */,
 				86DE326723FDC4AB00D5C6D9 /* GlobalStates.swift */,
-				86A9C34A23F87AAB0043D5D6 /* Assets.xcassets */,
-				86A9C34F23F87AAB0043D5D6 /* Main.storyboard */,
-				86A9C35223F87AAB0043D5D6 /* Info.plist */,
-				86A9C35323F87AAB0043D5D6 /* Healthy.entitlements */,
-				86A9C35923F87BB60043D5D6 /* StatusView.xib */,
+				86F1D8A7245339A300B9BBDD /* GlobalSettings.swift */,
+				86AD302523F89E6500E43E79 /* NetatmoConnect.swift */,
+				86C9A7A2240065FA009E3515 /* ContentView */,
+				868628D9240A743F00ECC4C8 /* SettingsView */,
+				868628DA240A745800ECC4C8 /* LoginView */,
+				868628DB240A746100ECC4C8 /* CompactView */,
+				86EE4AB8240A77A1002958F8 /* ErrorView */,
 				86A9C35B23F87BE50043D5D6 /* StatusViewController.swift */,
 				86A9C35D23F885BE0043D5D6 /* EventMonitor.swift */,
-				86AD302523F89E6500E43E79 /* NetatmoConnect.swift */,
 				86AD302823F89EC600E43E79 /* Netatmo.h */,
 				86AD302923F89EC600E43E79 /* Netatmo.m */,
 				86AAF4B023F9C01500736301 /* HealthyDataStruct.swift */,
+				86A9C34A23F87AAB0043D5D6 /* Assets.xcassets */,
+				86A9C35223F87AAB0043D5D6 /* Info.plist */,
+				86A9C35323F87AAB0043D5D6 /* Healthy.entitlements */,
+				86A9C34F23F87AAB0043D5D6 /* Main.storyboard */,
+				86A9C35923F87BB60043D5D6 /* StatusView.xib */,
 				86A9C36323F88DD60043D5D6 /* Localizable.strings */,
 				86A9C34C23F87AAB0043D5D6 /* Preview Content */,
 				86AD302723F89EC600E43E79 /* Healthy-Bridging-Header.h */,
@@ -119,6 +169,26 @@
 				86A9C34D23F87AAB0043D5D6 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		86C9A7A2240065FA009E3515 /* ContentView */ = {
+			isa = PBXGroup;
+			children = (
+				86A9C34823F87AAA0043D5D6 /* ContentView.swift */,
+				86C9A7A324006641009E3515 /* TitleBarView.swift */,
+				86C9A7A524006682009E3515 /* HealthView.swift */,
+				86C9A7A7240066A7009E3515 /* ValueView.swift */,
+				86D1EADE24016EA200A4E795 /* StatusBarView.swift */,
+			);
+			path = ContentView;
+			sourceTree = "<group>";
+		};
+		86EE4AB8240A77A1002958F8 /* ErrorView */ = {
+			isa = PBXGroup;
+			children = (
+				86EE4AB9240A77B6002958F8 /* ErrorView.swift */,
+			);
+			path = ErrorView;
 			sourceTree = "<group>";
 		};
 		FD16568092BD1B3A63FEDCEF /* Pods */ = {
@@ -253,11 +323,21 @@
 				86A9C34923F87AAA0043D5D6 /* ContentView.swift in Sources */,
 				86A9C35C23F87BE50043D5D6 /* StatusViewController.swift in Sources */,
 				8646560623F92C040022401B /* CompactView.swift in Sources */,
+				86F1D8A8245339A300B9BBDD /* GlobalSettings.swift in Sources */,
+				86F1D8A6245320D200B9BBDD /* SettingsGeneralView.swift in Sources */,
+				86EE4ABA240A77B6002958F8 /* ErrorView.swift in Sources */,
+				86C9A7A8240066A7009E3515 /* ValueView.swift in Sources */,
 				86A9C34723F87AAA0043D5D6 /* AppDelegate.swift in Sources */,
+				86D1EADF24016EA200A4E795 /* StatusBarView.swift in Sources */,
+				86C9A7A1240057B5009E3515 /* Calculations.swift in Sources */,
 				86AD302623F89E6500E43E79 /* NetatmoConnect.swift in Sources */,
+				86C9A7A424006641009E3515 /* TitleBarView.swift in Sources */,
+				86E667CF240972BD00ECC919 /* SettingsView.swift in Sources */,
 				86DE326823FDC4AB00D5C6D9 /* GlobalStates.swift in Sources */,
 				86AD302A23F89EC700E43E79 /* Netatmo.m in Sources */,
+				86C9A79F240025BA009E3515 /* LoginView.swift in Sources */,
 				86A9C35E23F885BE0043D5D6 /* EventMonitor.swift in Sources */,
+				86C9A7A624006682009E3515 /* HealthView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

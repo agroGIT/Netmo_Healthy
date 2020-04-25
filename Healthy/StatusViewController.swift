@@ -32,7 +32,7 @@ class StatusViewController: NSViewController {
     override func mouseDown(with theEvent: NSEvent) {
       
       //  print("Click")
-        let appDel: AppDelegate = (NSApplication.shared.delegate as! AppDelegate)
+//        let appDel: AppDelegate = (NSApplication.shared.delegate as! AppDelegate)
 //        appDel.clickOnStatusBar(theEvent.window)
         
     }

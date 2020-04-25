@@ -17,3 +17,11 @@
 "HUMIDITY" = "Humidity";
 "CO2" = "CO2";
 "NOISE" = "Noise";
+
+// Index
+"HEALTHY" = "Healthy";
+"FINE" = "Fine";
+"FAIR" = "Fair";
+"POOR" = "Poor";
+"UNHEALTHY" = "Unhealthy";
+

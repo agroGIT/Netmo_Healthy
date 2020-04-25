@@ -17,3 +17,11 @@
 "HUMIDITY" = "Luftfeuchtigkeit";
 "CO2" = "CO2";
 "NOISE" = "Lautstärke";
+
+// Index
+"HEALTHY" = "Gesund";
+"FINE" = "Angemessen";
+"FAIR" = "Ausgewogen";
+"POOR" = "Schlecht";
+"UNHEALTHY" = "Ungesund";
+

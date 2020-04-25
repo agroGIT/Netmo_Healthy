@@ -24,35 +24,39 @@ class NetatmoConnect: NSObject {
     }
     
 
-    // Erstmalige Authentication und Erzeugung eines RefreshTokens
+    
+    
+    // MARK: - Authentication
+    // ----------------------------------------------
     func authentication (username:String, password: String) -> String? {
         print ("\(username), \(password)")
         let defaults = UserDefaults.standard
-        var refresh_Token:String? = nil
+//        var refresh_Token:String? = nil
         if username == "" {return nil}
         if password == "" {return nil}
-        let set:CharacterSet = CharacterSet.init(charactersIn: "!*'();:@&=+$,/?%#[]")
+//        let set:CharacterSet = CharacterSet.init(charactersIn: "!*'();:@&=+$,/?%#[]")
         
-        let nPassword = password.addingPercentEncoding(withAllowedCharacters: set)
-        let nUsername = username.addingPercentEncoding(withAllowedCharacters: set)
+//        let nPassword = password.addingPercentEncoding(withAllowedCharacters: set)
+//        let nUsername = username.addingPercentEncoding(withAllowedCharacters: set)
         
         
-        print ("\(nUsername), \(nPassword)")
+//        print ("\(nUsername), \(nPassword)")
         
-        let url = "https://api.netatmo.net/oauth2/token"
-        let params:Parameters = [
-                                     "client_id":client_id,
-                                     "client_secret":client_secret,
-                                     "grant_type":"password",
-                                     "username":username,
-                                     "password":password]
-
-        AF.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).validate().responseJSON {
+        let url = "https://api.netatmo.com/oauth2/token"
+        
+        let params:Parameters = [    "client_id":client_id,
+            "client_secret":client_secret,
+            "grant_type":"password",
+            "username":username,
+            "password":password,
+            "scope":"read_homecoach"]
+        
+        AF.request(url, method: .post, parameters: params, encoding: URLEncoding.default , headers: nil).validate().responseJSON {
             response in
             
             do {
                 let json = try JSON(data: response.data! )
-                print (json)
+                
                 if json["error"].stringValue != "" {
                     
                     print(json["error"].stringValue)
@@ -60,174 +64,223 @@ class NetatmoConnect: NSObject {
                     
                 } else {
                     
-                    print (json)
-                    print ("----")
-                    
                     // Token erfolgreich geholt
                     let accessToken = json["access_token"].stringValue
                     let refreshToken = json["refresh_token"].stringValue
                     
                     // Neues refreshToken speichern
-                    defaults.set(refreshToken, forKey: refreshToken)
+                    defaults.set(refreshToken, forKey: "refreshToken")
                     print (accessToken)
                     print (refreshToken)
                     
-                    
+                    NotificationCenter.default.post(name: authSuccessfulNotify, object: nil)
                 }
                 
             } catch {
                 
             }
-                
         }
-    
-    
-        // let post = "scope=read_homecoach&client_id=\(client_id)&client_secret=\(client_secret)&grant_type=password&username=\(username)&password=\(password)"
-        
-        
-        
-        
-        
-        
         return nil
-//
-//        let netatmo = Netatmo()
-////        let result = netatmo.authentication(username, password: password)
-//        let result = getToken(username: username, password: password)
-//
-//
-//        if result == nil {
-//
-//            print("Authentication refreshCode = nil")
-//
-//            return nil
-//        }
-//
-//        let refreshToken = netatmo.refreshToken
-//
-//        if refreshToken != nil && result != nil {
-//
-//            print("Auth successful: \(refreshToken)")
-//
-//            defaults.set(username, forKey: "netatmoUser")
-//            defaults.set(refreshToken, forKey: "refreshToken")
-//            return refreshToken
-//
-//        } else {
-//
-//            print("Netatmo Authentification was not successful!")
-//
-//            defaults.set(nil, forKey: "refreshToken")
-//            defaults.set(nil, forKey: "netatmoUser")
-//
-//
-//            return nil
+
+    }
+
+    
+    // MARK: - Netatmo Request
+    // ----------------------------------------------
+    /// Die aktuelle Funktion zum Abfrage der Netatmo Daten
+    func requestNetatmoData() {
+        
+        print ("func requestNetatmoData")
+
+        // Token laden
+        var accessToken = ""
+        let defaults = UserDefaults.standard
+        let refreshToken:String?  = defaults.string(forKey: "refreshToken")
+        if refreshToken == nil {print("No refresh token saved");return }
+
+        var params:Parameters = ["client_id":client_id,
+                                 "client_secret":client_secret,
+                                 "grant_type":"refresh_token",
+                                 "refresh_token":refreshToken!,
+                                 "scope":"read_homecoach"]
+        
+        AF.request("https://api.netatmo.com/oauth2/token", method: .post, parameters: params, encoding: URLEncoding.default , headers: nil).validate().responseJSON {
+            response in
             
+            do {
+                
+                let json = try JSON(data: response.data! )
+                if json["error"].stringValue != "" {
+                    
+                    print(json["error"].stringValue)
+                    return
+                    
+                } else {
+                    
+                    
+                    // Token erfolgreich geholt und Refresh token Speichern
+                    accessToken = json["access_token"].stringValue
+                    let refresh = json["refresh_token"].stringValue
+                    defaults.set(refresh, forKey: "refresh_token")
+//                    print ("Access Token: \(accessToken)")
+                    
+                    
+                    
+                    // Abfragen der Netatmo Health Coach Daten
+                    
+                    params = ["access_token":accessToken,
+                              "scope":"read_homecoach"]
+
+                    AF.request("https://api.netatmo.com/api/gethomecoachsdata", method: .post, parameters: params, encoding: URLEncoding.default , headers: nil).validate().responseJSON {
+                        response in
+                        
+                        do {
+                            
+                            let json = try JSON(data: response.data! )
+                            
+                            // Wenn Fehler
+                            if json["error"].stringValue != "" {
+                                
+                                print(json["error"].stringValue)
+                                return
+                                
+                            } else {
+                                
+                             //   print (json)
+                                
+                                let devices = json["body"]["devices"].array
+                                
+//                                let devices = body["devices"].array
+                                
+                                let countDevices = devices?.count
+                                
+                                let calc = Calculations()
+                                
+                                var updateOK = true
+                                
+                                if countDevices! > 0 {
+                                    GlobalStates.sharedInstance.deviceData.removeAll()
+                                    
+                                    for device in devices! {
+                                        
+                                        var data = HealthyDataStruct()
+                                        
+                                        
+                                      //  print ("Name: \(device["station_name"])")
+                                        data.station_name = device["station_name"].string ?? "N/A"
+                                        
+                                        let dashboard = device["dashboard_data"].dictionary
+                                        
+                                        if dashboard != nil {
+                                            data.temp = dashboard?["temp"]?.double ?? 0
+                                            data.wifi_status =  dashboard?["wifi_status"]?.int ?? 0
+                                            data.max_temp = dashboard?["max_temp"]?.double ?? 0
+                                            data.date_max_temp = dashboard?["date_max_temp"]?.double ?? 0
+                                            data.min_temp = dashboard?["min_temp"]?.double ?? 0
+                                            data.date_min_temp = dashboard?["date_min_temp"]?.double ?? 0
+                                            data.time_utc = dashboard?["time_utc"]?.double ?? 0
+                                            data.health_idx = dashboard?["health_idx"]?.int ?? 0
+                                            data.Temperature = dashboard?["Temperature"]?.double ?? 0
+                                            data.TemperatureF = data.Temperature! * 1.8 + 32
+                                            data.CO2 = dashboard?["CO2"]?.double ?? 0
+                                            data.AbsolutePressure = dashboard?["AbsolutePressure"]?.double ?? 0
+                                            data.Noise = dashboard?["Noise"]?.double ?? 0
+                                            data.Pressure = dashboard?["Pressure"]?.double ?? 0
+                                            data.Humidity = dashboard?["Humidity"]?.double ?? 0
+                                            
+                                            let place = device["place"]["location"].array
+                                            if place != nil {
+                                                data.country = device["place"]["country"].string ?? "N/A"
+                                                data.altitude = device["place"]["altitude"].double ?? 0
+                                                data.city = device["place"]["city"].string ?? "N/A"
+                                                
+                                                if place!.count == 2 {
+                                                    data.lat = place?[0].double ?? 0
+                                                    data.lon = place?[1].double ?? 0
+                                                }
+                                            } else {
+                                                data.country = "N/A"
+                                                data.altitude = -999.0
+                                                data.city = "N/A"
+                                                data.lat = 0.0
+                                                data.lon = 0.0
+                                                
+                                                
+                                                
+                                            }
+                                            print ("City: \(data.city!)")
+                                            
+                                            
+                                            
+                                            // Runden der Werte
+                                            data.temp = calc.rundenDouble(data.temp!)
+                                            //data.wifi_status = calc.rundenDouble(data.wifi_status!)
+                                            data.max_temp = calc.rundenDouble(data.max_temp!)
+                                            data.date_max_temp = calc.rundenDouble(data.date_max_temp!)
+                                            data.min_temp = calc.rundenDouble(data.min_temp!)
+                                            data.date_min_temp = calc.rundenDouble(data.date_min_temp!)
+                                            data.time_utc = calc.rundenDouble(data.time_utc!)
+                                            data.Temperature = calc.rundenDouble(data.Temperature!)
+                                            data.CO2 = calc.rundenDouble(data.CO2!)
+                                            data.AbsolutePressure = calc.rundenDouble(data.AbsolutePressure!)
+                                            data.Noise = calc.rundenDouble(data.Noise!)
+                                            data.Pressure = calc.rundenDouble(data.Pressure!)
+                                            data.Humidity = calc.rundenDouble(data.Humidity!)
+                                            
+                                            GlobalStates.sharedInstance.deviceData.append(data)
+                                            
+                                            data.station_name = "Element 2"
+                                            data.health_idx = 1
+                                            GlobalStates.sharedInstance.deviceData.append(data)
+                                            
+                                            data.station_name = "Element 3"
+                                            data.health_idx = 2
+                                            GlobalStates.sharedInstance.deviceData.append(data)
+                                            
+                                            data.station_name = "Element 4"
+                                            data.health_idx = 3
+                                            GlobalStates.sharedInstance.deviceData.append(data)
+                                            
+                                            data.station_name = "Element 5"
+                                            data.health_idx = 4
+                                            GlobalStates.sharedInstance.deviceData.append(data)
+                                        } else {
+                                            updateOK = false
+                                        }
+                                    }
+                                    
+                                    
+                                    
+                                    if updateOK {
+                                        // Notification senden
+                                        NotificationCenter.default.post(name: updateSuccessfulNotify, object: nil)
+                                    } else {
+                                        
+                                                                             
+                                        NotificationCenter.default.post(name: updateFailedNotify, object: nil)
+                                    }
+                                    
+                                }
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+
+                            }
+                        } catch {print ("Error: Refreshing Health Data failed") }
+                    }
+                    
+                    
+                    
+                    ///////
+                }
+            } catch {print ("Error: Refreshing Token failed") }
         }
-    
-    
-    
-    func getToken(username:String, password: String) -> String {
-
-
-
-//        let url = "https://api.netatmo.net/oauth2/token"
-//
-//        let post = "scope=read_homecoach&client_id=\(client_id)&client_secret=\(client_secret)&grant_type=password&username=\(username)&password=\(password)"
-//
-////        let data = netatmoRequest(url: url, post: post)
-//        let netatmo = Netatmo()
-//        let nsdata = netatmo.netatmoRequest(url, data: post) as NSData
-//
-//        // To JSON
-//        let data = nsdata as Data
-//        let json = try? JSONSerialization.jsonObject(with: data, options: [])
-//
-//
-//        print ("\(json)")
-//
-        return "Dieses noch ändern"
     }
     
-    func netatmoRequest (url:String, post:String) {
-        
-//        var responseData:NSData? = nil
-        
-        let url = URL(string: url)!
-        var request = URLRequest(url: url)
-        request.httpBody = post.data(using: String.Encoding.utf8)
-        request.httpMethod = "POST"
-
-        
-        NSURLConnection.sendAsynchronousRequest(request, queue: OperationQueue.main) {(response, data, error) in
-            guard let data = data else { return }
-            print(String(data: data, encoding: .utf8)!)
-            
-        }
-
-//        return responseData
-    }
-    
-    
-    
-    
-    
-    /*
-     - (NSData*) netatmoRequest:(NSString*)url Data:(NSString*)post
-     {
-
-         //post =[post stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-         //    NSString *escapedParameter = (NSString*)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,  (CFStringRef)post, NULL,  CFSTR("=&+"), kCFStringEncodingUTF8));
-         NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding]; // V 1.9.4 Sonderzeichen Encoding bei Netatmo-Anmeldung ist damit gefixt
-         
-         
-         NSData *responseData;
-         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-         [request setURL:[NSURL URLWithString:url]];
-         [request setHTTPMethod:@"POST"];
-         [request setHTTPBody:postData];
-         
-         NSURLResponse *response;
-         NSError *err;
-         responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-         
-         
-         
-         if (responseData == nil) {NSLog(@"Netatmo Request Data is nil! (Netatmo.m, netatmoRequest): Error:%@", err); return nil;}
-         
-         
-         NSError *error = nil;
-         [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&error];
-         
-         if(error) { NSLog(@"Fehlerhaftes JSON"); return nil;}
-         
-         return responseData;
-         
-     }
-     
-     */
-    
-    
-    func requestHealthData() {
-        
-        
-        
-        
-        
-//        NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding]; // V 1.9.4 Sonderzeichen Encoding bei Netatmo-Anmeldung ist damit gefixt
-//
-//
-//        NSData *responseData;
-//        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-//        [request setURL:[NSURL URLWithString:url]];
-//        [request setHTTPMethod:@"POST"];
-//        [request setHTTPBody:postData];
-//
-//        NSURLResponse *response;
-//        NSError *err;
-//        responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&err];
-
-    }
     
     
 
